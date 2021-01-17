@@ -90,15 +90,16 @@ function checkPositions($startPosition, $illegalPositions, $occupiedPositions) {
         }
         $tryPosition;
         $uncheckedPositions = false;
-        printBoard($occupiedPositions);
     }
     // count queens on each row -> if equals array size, solution is valid
     $sum = 0;
     foreach ($occupiedPositions as $row) {
         $sum += array_sum($row);
     }
-    echo $sum == count($occupiedPositions) ? 'success :)' : 'not a valid solution :(';
-    var_dump($triedPositions);
+    $success = $sum == count($occupiedPositions) ? true : false;
+    if ($success) {
+        printBoard($occupiedPositions);
+    }
 }
 
 function calculatePositions($size) {
@@ -110,16 +111,12 @@ function calculatePositions($size) {
 
     // if a 7x7 board has 7 queens, exactly one queen must exist on each row
     // take each start position on the first row and iterate from there
-    checkPositions(5, $illegalPositions, $occupiedPositions);
-    // for ($i = 0; $i < count($board); $i++) {
-    //     checkPositions($i, $illegalPositions, $occupiedPositions);
-    // }
+    for ($i = 0; $i < $size; $i++) {
+        checkPositions($i, $illegalPositions, $occupiedPositions);
+    }
 
     $illegalPositions = getIllegalPositions($illegalPositions, 3, 3);
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -144,6 +141,9 @@ function calculatePositions($size) {
     </style>
 </head>
 <body>
+    <?= calculatePositions(4) ?>
+    <?= calculatePositions(5) ?>
+    <?= calculatePositions(6) ?>
     <?= calculatePositions(7) ?>
 </body>
 </html>
